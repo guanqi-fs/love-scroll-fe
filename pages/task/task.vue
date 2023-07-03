@@ -26,13 +26,13 @@
 			<!-- 面板 -->
 			<view class="task-panel">
 				<view class="task-panel-top">
-					<view class="task-panel-title">任务面板</view>
+					<view class="task-title task-panel-title">任务面板</view>
 					<view class="since-time">
 						<uni-data-select
-						  class="data-select"
-						  v-model="selectValue"
-						  :localdata="selectTimeRange"
-						  @change="change"
+						    class="data-select"
+						    v-model="selectValue"
+						    :localdata="selectTimeRange"
+						    @change="change"
 						></uni-data-select>
 						<view class="down-icon">
 							<image src="../../static/images/down-2.png"></image>
@@ -40,18 +40,24 @@
 					</view>
 				</view>
 				<view class="task-panel-main">
-					<view :class="taskDataItemClass" @click="changeTaskFilter()">
-						<view class="task-count">{{taskData.all}}</view>
-						<view class="task-data-tip">全部</view>
+					<view 
+						:class="item.class" 
+						@click="changeTaskFilter(index)" 
+						v-for="(item, index) in taskPanelData"
+						:key="index"
+					>
+						<view class="task-count">{{item.count}}</view>
+						<view class="task-data-tip">{{item.tip}}</view>
 					</view>
-					<view :class="taskDataItemClass" @click="changeTaskFilter()">
-						<view class="task-count">{{taskData.doing}}</view>
-						<view class="task-data-tip">进行中</view>
-					</view>
-					<view :class="taskDataItemClass" @click="changeTaskFilter()">
-						<view class="task-count">{{taskData.end}}</view>
-						<view class="task-data-tip">已结束</view>
-					</view>
+				</view>
+			</view>
+			<!-- 任务列表 -->
+			<view class="task-list">
+				<view class="task-list-top">
+					<view class="task-title">任务列表</view>
+				</view>
+				<view class="task-item">
+					<view class="task-create-time"></view>
 				</view>
 			</view>
 		</view>
@@ -69,17 +75,38 @@
 					{ value: 1, text: "本周" },
 					{ value: 2, text: "本月" },
 			    ],
-				taskData: {
-					all: 7,
-					doing: 5,
-					end: 2
-				},
-				taskDataItemClass: "task-data-item"
+				taskPanelData: [
+					{ count: 7, tip: "全部", class: "task-data-item-active"},
+					{ count: 5, tip: "进行中", class: "task-data-item"},
+					{ count: 2, tip: "已结束", class: "task-data-item"},
+				],
+				taskList: [
+					{
+						createTime: {
+							year: 2023,
+							month: 6,
+							day: 30,
+							hour: 18,
+							minute: 15,
+							seconds: 40,
+						},
+						title: "出门买菜",
+						details: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
+						rewards: 100,
+						
+					}
+				]
 			}
 		},
 		methods: {
-			changeTaskFilter() {
-				this.taskDataItemClass = "task-data-item item-selected"
+			changeTaskFilter(index) {
+				this.taskPanelData.forEach((item, i) => {
+					if (i == index) {
+						item.class = "task-data-item-active"
+					} else {
+						item.class = "task-data-item"
+					}
+				});
 			}
 		}
 	}
@@ -122,17 +149,20 @@
 		}
 	}
 	
+	.task-title {
+		font-size: 40rpx;
+		font-weight: bolder;
+		color: $uni-text-color;
+	}
+	
 	.task-panel {
 		width: 100%;
-		height: 64rpx;
+		height: 310rpx;
 		margin-top: $uni-spacing-col-base;
 		.task-panel-top {
 			display: flex;
 			align-items: center;
 			.task-panel-title {
-				font-size: $uni-font-size-lg;
-				font-weight: bold;
-				color: $uni-text-color;
 				flex: 1;
 			}
 			.since-time {
@@ -158,7 +188,7 @@
 			display: flex;
 			align-items: center;
 			margin-top: $uni-spacing-col-base;
-			.task-data-item {
+			.task-data-item, .task-data-item-active {
 				width: 30%;
 				height: 200rpx;
 				border: #FFF solid 1rpx;
@@ -179,11 +209,18 @@
 				}
 			}
 			
-			.item-selected {
+			.task-data-item-active {
 				color: #FFF;
 				background-color: $uni-color-primary;
 			}
 		}
+	}
+	
+	.task-list {
+		width: 100%;
+		// height: 310rpx;
+		margin-top: $uni-spacing-col-base;
+		
 	}
 	
 

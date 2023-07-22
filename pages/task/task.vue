@@ -11,6 +11,7 @@
 			<!-- 顶部 -->
 			<view class="task-top">
 				<view class="option-button">
+					<view @click="toLogin">跳转到登录页</view>
 					<image src="../../static/images/option.png" mode="aspectFill"></image>
 				</view>
 			</view>
@@ -106,6 +107,11 @@
 						item.class = "task-data-item"
 					}
 				});
+			},
+			toLogin() {
+				uni.navigateTo({
+					url: "@pages/task/task"
+				})
 			}
 		}
 	}

@@ -12,32 +12,65 @@
 				<view class="login-select">
 					<view class="login-select-base-top"></view>
 					<view class="login-select-base-button"></view>
-					<view class="login-phone">手机号登录</view>
-					<view class="login-username">账号登录</view>
+					<view class="login-phone-active" id="login-phone" @tap="changeLoginForm(EnumLoginOption.LoginPhone)">手机号登录</view>
+					<view class="login-username" id="login-username" @tap="changeLoginForm(EnumLoginOption.LoginUsername)">账号登录</view>
 				</view>
 				<view class="login-main">
 					<view class="input-item">
 						<view class="avatar-icon">
-							<image src="../../static/images/my.png"></image>
+							<image src="../../static/images/username-icon.png"></image>
 						</view>
-						<view class="input-text">
+						<view class="input-text" v-if="loginOption == EnumLoginOption.LoginPhone">
 							<input type="text" placeholder="请输入手机号"/>
 						</view>
+						<view class="input-text" v-else>
+							<input type="text" placeholder="请输入账号"/>
+						</view>
 					</view>
-					<view class="input-item input-password">
+					<view class="input-item input-password" v-if="loginOption == EnumLoginOption.LoginPhone">
 						<view class="avatar-icon">
-							<image src="../../static/images/my.png"></image>
+							<image src="../../static/images/verification.png"></image>
 						</view>
 						<view class="input-text">
-							<input type="safe-password" placeholder="请输入验证码"/>
+							<input type="text" placeholder="请输入验证码"/>
 						</view>
-						<view class="verification-code-button">发送验证码</view>
+						<button class="verification-code-button" type="default">发送验证码</button>
 					</view>
+					<view class="input-item input-password" v-else>
+						<view class="avatar-icon">
+							<image src="../../static/images/password.png"></image>
+						</view>
+						<view class="input-text">
+							<input type="safe-password" placeholder="请输入密码"/>
+						</view>
+					</view>
+					
 					<view class="other-select">
 						<view class="register-button">账号注册</view>
 						<view class="forget-password">忘记密码</view>
 					</view>
 					<view class="login-button">登录</view>
+				</view>
+			</view>
+			
+			<view class="tip-line">
+				<view class="line"></view>
+				<view class="tip">第三方账号</view>
+				<view class="line"></view>
+			</view>
+			
+			<view class="external-icon">
+				<view class="icon-position">
+					<view class="wechat-icon">
+						<image src="../../static/images/wechat.png"></image>
+						<view class="icon-bg"></view>
+					</view>
+				</view>
+				<view class="icon-position">
+					<view class="qq-icon">
+						<image src="../../static/images/QQ.png"></image>
+						<view class="icon-bg"></view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -48,152 +81,243 @@
 	export default {
 		data() {
 			return {
+				EnumLoginOption: {
+					LoginPhone: "phone",
+					LoginUsername: "username"
+				},
+				loginOption: "phone",
 				
 			}
 		},
 		methods: {
-			
+			changeLoginForm(option) {
+				let loginPhone = document.getElementById("login-phone")
+				let loginUsername = document.getElementById("login-username")
+				this.loginOption = option
+				if (option == this.EnumLoginOption.LoginPhone) {
+					loginPhone.className = "login-phone-active"
+					loginUsername.className = "login-username"
+				} else {
+					loginPhone.className = "login-phone"
+					loginUsername.className = "login-username-active"
+				}
+			}
 		},
 		onLoad() {
-			uni.loadFontFace({
-			  family: 'Bitstream Vera Serif Bold',
-			  source: 'url("https://sungd.github.io/Pacifico.ttf")',
-			  success() {
-				  console.log('success')
-			  }
-			})
+			
 		}
 	}
 </script>
 
 <style lang="scss">
+
 	@import "../../common/common.scss";
 	.body {
 		width: 100%;
 		height: 100%;
-		padding: 20px;
+		padding: 40rpx;
 	}
 	
 	.login-form {
 		width: 100%;
-		height: 60%;
+		height: 800rpx;
 		margin-top: 30%;
 		text-align: center;
-		border-radius: 10px;
+		border-radius: 20rpx;
 		.login-select {
 			width: 100%;
-			height: 60px;
+			height: 120rpx;
 			position: relative;
-			font-size: 22px;
+			font-size: 44rpx;
 			font-weight: 600;
 			color: #383838;
 			.login-select-base-top {
-				height: 25px;
+				height: 50rpx;
 				width: 100%;
 				position: absolute;
-				top: 10px;
+				top: 20rpx;
 				left: 0;
 				background-color: #E3E2E2;
 				z-index: -1;
-				border-radius: 10px;
+				border-radius: 20rpx;
 			}
 			.login-select-base-button {
-				height: 25px;
+				height: 50rpx;
 				width: 100%;
 				position: absolute;
 				bottom: 0;
 				left: 0;
 				background-color: #fff;
 				z-index: -1;
-				border-radius: 10px;
+				border-radius: 20rpx;
+			}
+			.login-phone-active {
+				width: 50%;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				border-radius: 20rpx 70rpx 0 0;
+				background-color: #fff;
+				height: 120rpx;
+				line-height: 120rpx;
 			}
 			.login-phone {
 				width: 50%;
-				height: 60px;
 				position: absolute;
 				left: 0;
 				bottom: 0;
-				background-color: #fff;
-				line-height: 60px;
-				border-radius: 10px 35px 0 0;
+				border-radius: 20rpx 0 70rpx 0;
+				background-color: #E3E2E2;
+				height: 100rpx;
+				line-height: 100rpx;
 			}
 			.login-username {
 				width: 50%;
-				height: 50px;
 				position: absolute;
 				right: 0;
 				bottom: 0;
+				border-radius: 0 20rpx 0 70rpx;
 				background-color: #E3E2E2;
-				line-height: 50px;
-				border-radius: 0 10px 0 35px;
+				height: 100rpx;
+				line-height: 100rpx;
+			}
+			.login-username-active {
+				width: 50%;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				border-radius: 70rpx 20rpx 0 0;
+				background-color: #fff;
+				height: 120rpx;
+				line-height: 120rpx;
 			}
 		}
 		.login-main {
 			width: 100%;
 			height: 80%;
 			background-color: #fff;
-			border-radius: 0 0 10px 10px;
-			padding: 20px;
+			border-radius: 0 0 20rpx 20rpx;
+			padding: 40rpx;
 			box-sizing: border-box;
 			.input-item {
 				width: 100%;
-				height: 60px;
-				margin-top: 10px;
+				height: 120rpx;
+				margin-top: 20rpx;
 				background-color: #F5F5F5;
-				border-radius: 50px;
+				border-radius: 100rpx;
 				display: flex;
 				align-items: center;
-				padding-left: 20px;
-				padding-right: 10px;
+				padding-left: 40rpx;
+				padding-right: 20rpx;
 				box-sizing: border-box;
 				.avatar-icon {
-					width: 32px;
-					height: 32px;
+					width: 64rpx;
+					height: 64rpx;
 					flex: none;
 				}
 				.input-text {
 					flex: 1;
 					text-align: left;
-					margin-left: 10px;
+					margin-left: 20rpx;
 				}
 				.verification-code-button {
-					height: 40px;
-					line-height: 40px;
-					border-radius: 50px;
+					height: 80rpx;
+					line-height: 80rpx;
+					border-radius: 100rpx;
 					background-color: #9282FF;
 					color: #fff;
-					font-size: 18px;
-					width: 110px;
+					font-size: 30rpx;
+					font-weight: bold;
+					width: 220rpx;
 				}
 			}
 			.input-password {
-				margin-top: 20px;
+				margin-top: 40rpx;
 			}
 			.other-select {
 				position: relative;
 				color: #9282FF;
-				margin-top: 20px;
-				height: 60px;
+				margin-top: 40rpx;
+				height: 120rpx;
 				.register-button {
 					position: absolute;
-					left: 10px;
+					left: 20rpx;
 					top: 0;
 				}
 				.forget-password {
 					position: absolute;
-					right: 10px;
+					right: 20rpx;
 					top: 0;
 				}
 			}
 			.login-button {
-				font-size: 22px;
+				font-size: 44rpx;
 				font-weight: bold;
 				color: #fff;
 				background: linear-gradient(45deg, #80F8FF, #6FA0FD, #A97AFA);
-				height: 50px;
-				line-height: 50px;
-				border-radius: 50px;
+				height: 100rpx;
+				line-height: 100rpx;
+				border-radius: 100rpx;
 			}
 		}
+	}
+	
+	.tip-line {
+		margin-top: 40rpx;
+		width: 100%;
+		height: 40rpx;
+		line-height: 40rpx;
+		display: flex;
+		align-items: center;
+		color: #979797;
+		.line {
+			flex: none;
+			width: 200rpx;
+			height: 1rpx;
+			border-bottom: #979797 1rpx solid;
+		}
+		.tip {
+			flex: 1;
+			text-align: center;
+		}
+	}
+	
+	.external-icon {
+		width: 100%;
+		height: 150rpx;
+		display: flex;
+		align-items: center;
+		margin-top: 50rpx;
+		.wechat-icon {
+			width: 100rpx;
+			height: 100rpx;
+			position: relative;
+			float: right;
+			margin: 0 20rpx;
+		}
+		.qq-icon {
+			width: 110rpx;
+			height: 110rpx;
+			position: relative;
+			float: left;
+			margin: 0 20rpx;
+		}
+	}
+	
+	.icon-position {
+		flex: 1;
+		position: relative;
+	}
+	
+	.icon-bg {
+		width: 80rpx;
+		height: 80rpx;
+		background-color: #fff;
+		position: absolute;
+		left: 10rpx;
+		top: 10rpx;
+		z-index: -1;
+		border-radius: 100rpx;
+		
 	}
 </style>

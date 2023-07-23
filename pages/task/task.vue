@@ -11,54 +11,7 @@
 			<!-- 顶部 -->
 			<view class="task-top">
 				<view class="option-button">
-					<view @click="toLogin">跳转到登录页</view>
 					<image src="../../static/images/option.png" mode="aspectFill"></image>
-				</view>
-			</view>
-			<!-- 搜索框 -->
-			<view class="search">
-				<view class="search-input">
-					<input type="text" placeholder="搜索"/>
-				</view>
-				<view class="search-icon">
-					<image src="../../static/images/search.png"></image>
-				</view>
-			</view>
-			<!-- 面板 -->
-			<view class="task-panel">
-				<view class="task-panel-top">
-					<view class="task-title task-panel-title">任务面板</view>
-					<view class="since-time">
-						<uni-data-select
-						    class="data-select"
-						    v-model="selectValue"
-						    :localdata="selectTimeRange"
-						    @change="change"
-						></uni-data-select>
-						<view class="down-icon">
-							<image src="../../static/images/down-2.png"></image>
-						</view>
-					</view>
-				</view>
-				<view class="task-panel-main">
-					<view 
-						:class="item.class" 
-						@click="changeTaskFilter(index)" 
-						v-for="(item, index) in taskPanelData"
-						:key="index"
-					>
-						<view class="task-count">{{item.count}}</view>
-						<view class="task-data-tip">{{item.tip}}</view>
-					</view>
-				</view>
-			</view>
-			<!-- 任务列表 -->
-			<view class="task-list">
-				<view class="task-list-top">
-					<view class="task-title">任务列表</view>
-				</view>
-				<view class="task-item">
-					<view class="task-create-time"></view>
 				</view>
 			</view>
 		</view>
@@ -99,15 +52,6 @@
 			}
 		},
 		methods: {
-			changeTaskFilter(index) {
-				this.taskPanelData.forEach((item, i) => {
-					if (i == index) {
-						item.class = "task-data-item-active"
-					} else {
-						item.class = "task-data-item"
-					}
-				});
-			},
 			toLogin() {
 				uni.navigateTo({
 					url: "@pages/task/task"

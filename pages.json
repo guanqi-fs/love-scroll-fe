@@ -9,6 +9,14 @@
 		    
 		},
 		{
+		    "path" : "pages/register/register",
+		    "style" :                                                                                    
+		    {
+				"navigationStyle":"custom"
+		    }
+		    
+		},
+		{
             "path" : "pages/task/task",
             "style" :                                                                                    
 			 {
@@ -24,5 +32,35 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
+	// 配置tabbar导航栏
+	"tabBar": {
+		"borderStyle": "black",
+		"selectedColor": "#9282FF",
+		"color": "#C7CBE4",
+		"list": [
+			{
+				"pagePath": "pages/task/task",
+				"iconPath": "static/images/tabbar/nav-home.png",
+				"selectedIconPath": "static/images/tabbar/nav-home-active.png",
+				"text": "首页"
+			},{
+				"pagePath": "pages/task/task",
+				"iconPath": "static/images/tabbar/nav-task.png",
+				"selectedIconPath": "static/images/tabbar/nav-task-active.png",
+				"text": "任务"
+			},{
+				"pagePath": "pages/task/task",
+				"iconPath": "static/images/tabbar/nav-shop.png",
+				"selectedIconPath": "static/images/tabbar/nav-shop-active.png",
+				"text": "商城"
+			},{
+				"pagePath": "pages/task/task",
+				"iconPath": "static/images/tabbar/nav-my.png",
+				"selectedIconPath": "static/images/tabbar/nav-my-active.png",
+				"text": "我的"
+			}
+		]
+	},
+	
 	"uniIdRouter": {}
 }

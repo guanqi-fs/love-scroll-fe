@@ -21,10 +21,10 @@
 							<image src="../../static/images/username-icon.png"></image>
 						</view>
 						<view class="input-text" v-if="loginOption == EnumLoginOption.LoginPhone">
-							<input type="text" placeholder="请输入手机号"/>
+							<input type="text" placeholder="请输入手机号" @input="phoneInput"/>
 						</view>
 						<view class="input-text" v-else>
-							<input type="text" placeholder="请输入账号"/>
+							<input type="text" placeholder="请输入账号" @input="usernameInput"/>
 						</view>
 					</view>
 					<view class="input-item input-password" v-if="loginOption == EnumLoginOption.LoginPhone">
@@ -32,24 +32,24 @@
 							<image src="../../static/images/verification.png"></image>
 						</view>
 						<view class="input-text">
-							<input type="text" placeholder="请输入验证码"/>
+							<input type="text" placeholder="请输入验证码" @input="verCodeInput"/>
 						</view>
-						<button class="verification-code-button" type="default">发送验证码</button>
+						<button class="verification-code-button" :style="{ background: buttonColor }" id="code-button" :disabled="codeButtonDisabled" @tap="getCode()">{{codeText}}</button>
 					</view>
 					<view class="input-item input-password" v-else>
 						<view class="avatar-icon">
 							<image src="../../static/images/password.png"></image>
 						</view>
 						<view class="input-text">
-							<input type="safe-password" placeholder="请输入密码"/>
+							<input type="safe-password" password placeholder="请输入密码" @input="passwordInput"/>
 						</view>
 					</view>
 					
 					<view class="other-select">
-						<view class="register-button">账号注册</view>
+						<view class="register-button" @tap="toRegisterPage()">账号注册</view>
 						<view class="forget-password">忘记密码</view>
 					</view>
-					<view class="login-button">登录</view>
+					<view class="login-button" @tap="login()">登录</view>
 				</view>
 			</view>
 			
@@ -86,10 +86,40 @@
 					LoginUsername: "username"
 				},
 				loginOption: "phone",
-				
+				codeText: '获取验证码',
+				codeButtonDisabled: false,
+				buttonColor: "#9282FF",
+				telephonenumber: "",
+				username: "",
+				password: "",
+				verificationCode: ""
 			}
 		},
 		methods: {
+			login() {
+				if (this.username == "admin" && this.password == "123456") {
+					uni.showToast({
+						title: "登录成功"
+					})
+					uni.navigateBack({
+						url: "/pages/task/task"
+					})
+				} else {
+					console.log("登录失败")
+				}
+			},
+			phoneInput(event) {
+				this.telephonenumber = event.detail.value
+			},
+			usernameInput(event) {
+				this.username = event.detail.value
+			},
+			passwordInput(event) {
+				this.password = event.detail.value
+			},
+			verCodeInput(event) {
+				this.verificationCode = event.detail.value
+			},
 			changeLoginForm(option) {
 				let loginPhone = document.getElementById("login-phone")
 				let loginUsername = document.getElementById("login-username")
@@ -101,6 +131,28 @@
 					loginPhone.className = "login-phone"
 					loginUsername.className = "login-username-active"
 				}
+			},
+			getCode() {
+				let count = 60;
+				this.codeButtonDisabled = true;
+				this.buttonColor = '#d6c8ff';
+				this.codeText = `已发送(${count}s)`;
+				let timer = setInterval(() => {
+				  if (count > 0 && count <= 60) {
+					count--;
+					this.codeText = `已发送(${count}s)`;
+				  } else {
+					clearInterval(timer);
+					this.codeText = '重新获取';
+					this.codeButtonDisabled = false;
+					this.buttonColor = '#9282FF';
+				  }
+				}, 1000);
+			},
+			toRegisterPage() {
+				uni.navigateTo({
+					url: "../../pages/register/register"
+				})
 			}
 		},
 		onLoad() {
@@ -128,8 +180,8 @@
 			width: 100%;
 			height: 120rpx;
 			position: relative;
-			font-size: 44rpx;
-			font-weight: 600;
+			font-size: 38rpx;
+			font-weight: bold;
 			color: #383838;
 			.login-select-base-top {
 				height: 50rpx;
@@ -160,6 +212,7 @@
 				background-color: #fff;
 				height: 120rpx;
 				line-height: 120rpx;
+				color: #383838;
 			}
 			.login-phone {
 				width: 50%;
@@ -170,6 +223,7 @@
 				background-color: #E3E2E2;
 				height: 100rpx;
 				line-height: 100rpx;
+				color: #6A6A6A;
 			}
 			.login-username {
 				width: 50%;
@@ -180,6 +234,7 @@
 				background-color: #E3E2E2;
 				height: 100rpx;
 				line-height: 100rpx;
+				color: #6A6A6A;
 			}
 			.login-username-active {
 				width: 50%;
@@ -190,6 +245,7 @@
 				background-color: #fff;
 				height: 120rpx;
 				line-height: 120rpx;
+				color: #383838;
 			}
 		}
 		.login-main {
@@ -224,7 +280,6 @@
 					height: 80rpx;
 					line-height: 80rpx;
 					border-radius: 100rpx;
-					background-color: #9282FF;
 					color: #fff;
 					font-size: 30rpx;
 					font-weight: bold;
@@ -258,6 +313,7 @@
 				height: 100rpx;
 				line-height: 100rpx;
 				border-radius: 100rpx;
+				box-shadow: 0px 0px 10px #bbb;
 			}
 		}
 	}

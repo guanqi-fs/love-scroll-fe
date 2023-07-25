@@ -8,10 +8,31 @@
 			<view class="bg-white"></view>
 		</view>
 		<view class="body">
-			<!-- 顶部 -->
 			<view class="task-top">
-				<view class="option-button">
-					<image src="../../static/images/option.png" mode="aspectFill"></image>
+				<view class="left-allow">
+					<image src="../../static/images/左箭头.png"></image>
+				</view>
+				<view class="time-limit">{{timeLimit}}</view>
+				<view class="right-allow">
+					<image src="../../static/images/右箭头.png"></image>
+				</view>
+			</view>
+			<view class="task-time-div">
+				<view 
+				v-for="item in selectTimeRange" 
+				:key="item.value" 
+				v-bind:class="item.value == selectValue ? `task-time-options-item time-options-active` : `task-time-options-item` "
+				@tap="changeSelectedTimeRange(item.value)"
+				>{{item.text}}</view>
+			</view>
+			<view class="task-panel">
+				<view class="task-belong">
+					<view class="task-belong-select">
+						<view class="task-belong-base-top"></view>
+						<view class="task-belong-base-button"></view>
+						<view v-bind:class="onwerTaskClass" @tap="changeTaskBelong(EnumTaskBelong.ownerTask)">我的任务</view>
+						<view v-bind:class="anotherTaskClass" @tap="changeTaskBelong(EnumTaskBelong.anotherTask)">她的任务</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -23,11 +44,20 @@
 	export default {
 		data() {
 			return {
+				EnumTaskBelong: {
+					ownerTask: "owner",
+					anotherTask: "another",
+				},
+				onwerTaskClass: "owner-task-panel-active",
+				anotherTaskClass: "another-task-panel",
+				timeLimit: "2023年7月25日",
+				selectedTaskBelong: "owner",
 			    selectValue: 0,
 			    selectTimeRange: [
-					{ value: 0, text: "本日" },
-					{ value: 1, text: "本周" },
-					{ value: 2, text: "本月" },
+					{ value: 0, text: "日" },
+					{ value: 1, text: "周" },
+					{ value: 2, text: "月" },
+					{ value: 3, text: "年" },
 			    ],
 				taskPanelData: [
 					{ count: 7, tip: "全部", class: "task-data-item-active"},
@@ -52,10 +82,11 @@
 			}
 		},
 		methods: {
-			toLogin() {
-				uni.navigateTo({
-					url: "@pages/task/task"
-				})
+			changeSelectedTimeRange(value) {
+				this.selectValue = value
+			},
+			changeTaskBelong(value) {
+				
 			}
 		}
 	}
@@ -66,112 +97,128 @@
 	.task-top {
 		width: 100%;
 		height: 64rpx;
-		.option-button {
-			width: 64rpx;
-			height: 64rpx;
-		}
-	}
-	
-	.search {
-		width: 100%;
-		height: 88rpx;
 		display: flex;
 		align-items: center;
-		border: #FFF solid 1rpx;
-		margin-top: $uni-spacing-col-base;
-		border-radius: $uni-border-radius-base;
-		background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4));
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		.search-input {
-			flex: 1;
-			width: 100%;
-			height: 64rpx;
-		    display: flex;
-		    align-items: center;
-			padding-left: $uni-spacing-row-sm;
-		}
-		.search-icon {
+		color: #433C82;
+		font-weight: bold;
+		margin-top: 40rpx;
+		.left-allow {
+			width: 30rpx;
+			height: 30rpx;
 			flex: none;
-			width: 64rpx;
-			height: 64rpx;
-			padding-right: $uni-spacing-row-sm;
+		}
+		.right-allow {
+			width: 30rpx;
+			height: 30rpx;
+			flex: none;
+		}
+		.time-limit {
+			flex: 1;
+			text-align: center;
+			font-size: 36rpx;
 		}
 	}
 	
-	.task-title {
+	.task-time-div {
+		width: 100%;
+		height: 130rpx;
+		border-radius: 100rpx;
+		background-color: #fff;
+		margin-top: 40rpx;
+		display: flex;
+		padding: 0 30rpx;
 		font-size: 40rpx;
-		font-weight: bolder;
-		color: $uni-text-color;
+		font-weight: bold;
+		box-sizing: border-box;
+		color: #383838;
+		.task-time-options-item {
+			flex: 1;
+			text-align: center;
+			line-height: 130rpx;
+		}
+		.time-options-active {
+			color: #fff;
+			background: linear-gradient(45deg, #80F8FF, #6FA0FD, #A97AFA);
+			border-radius: 100rpx;
+			height: 90rpx;
+			margin-top: 20rpx;
+			line-height: 90rpx;
+			transition: all 0.1s ease-out;
+			transform: translateX(0);
+		}
 	}
 	
-	.task-panel {
+	.task-belong {
 		width: 100%;
-		height: 310rpx;
-		margin-top: $uni-spacing-col-base;
-		.task-panel-top {
-			display: flex;
-			align-items: center;
-			.task-panel-title {
-				flex: 1;
-			}
-			.since-time {
-				border: #FFF solid 1rpx;
-				border-radius: $uni-border-radius-base;
-				flex: none;
-				display: flex;
-				align-items: center;
-				padding-right: $uni-spacing-row-sm;
-				font-size: 12rpx;
-				.data-select {
-					width: 100rpx;
-				}
-				.down-icon {
-					width: $uni-img-size-sm;
-					height: $uni-img-size-sm;
-				}
-			}
-		}
-		.task-panel-main {
+		height: 120rpx;
+		position: relative;
+		font-size: 38rpx;
+		font-weight: bold;
+		color: #383838;
+		.task-belong-base-top {
+			height: 50rpx;
 			width: 100%;
-			height: 200rpx;
-			display: flex;
-			align-items: center;
-			margin-top: $uni-spacing-col-base;
-			.task-data-item, .task-data-item-active {
-				width: 30%;
-				height: 200rpx;
-				border: #FFF solid 1rpx;
-				text-align-last: center;
-				flex: 1;
-				margin: 0 $uni-spacing-row-sm;
-				border-radius: $uni-border-radius-base;
-				background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
-				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-				opacity: 0.8;
-				.task-count {
-					font-size: 60rpx;
-					margin-top: 40rpx;
-				}
-				.task-data-tip {
-					margin-top: $uni-spacing-col-sm;
-					font-size: $uni-font-size-sm;
-				}
-			}
-			
-			.task-data-item-active {
-				color: #FFF;
-				background-color: $uni-color-primary;
-			}
+			position: absolute;
+			top: 20rpx;
+			left: 0;
+			background-color: #E3E2E2;
+			z-index: -1;
+			border-radius: 20rpx;
 		}
-	}
-	
-	.task-list {
-		width: 100%;
-		// height: 310rpx;
-		margin-top: $uni-spacing-col-base;
-		
-	}
-	
+		.task-belong-base-top {
+			height: 50rpx;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background-color: #fff;
+			z-index: -1;
+			border-radius: 20rpx;
+		}
+		.onwer-task-panel-active {
+			width: 50%;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			border-radius: 20rpx 70rpx 0 0;
+			background-color: #fff;
+			height: 120rpx;
+			line-height: 120rpx;
+			color: #383838;
+		}
+		.onwer-task-panel {
+			width: 50%;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			border-radius: 20rpx 0 70rpx 0;
+			background-color: #E3E2E2;
+			height: 100rpx;
+			line-height: 100rpx;
+			color: #6A6A6A;
+		}
+		.another-task-panel {
+			width: 50%;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			border-radius: 0 20rpx 0 70rpx;
+			background-color: #E3E2E2;
+			height: 100rpx;
+			line-height: 100rpx;
+			color: #6A6A6A;
+		}
+		..another-task-panel-active {
+			width: 50%;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			border-radius: 70rpx 20rpx 0 0;
+			background-color: #fff;
+			height: 120rpx;
+			line-height: 120rpx;
+			color: #383838;
+		}
 
 	
 </style>

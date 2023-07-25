@@ -118,7 +118,7 @@
 	.register-form {
 		width: 100%;
 		height: 1100rpx;
-		margin-top: 30%;
+		margin-top: 50%;
 		text-align: center;
 		border-radius: 20rpx;
 		.register-title {

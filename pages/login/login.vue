@@ -41,7 +41,7 @@
 							<image src="../../static/images/password.png"></image>
 						</view>
 						<view class="input-text">
-							<input type="safe-password" password placeholder="请输入密码" @input="passwordInput"/>
+							<input password placeholder="请输入密码" @input="passwordInput"/>
 						</view>
 					</view>
 					
@@ -101,9 +101,9 @@
 			login() {
 				console.log("点击登录")
 				if (this.username == "admin" && this.password == "123456") {
-					// uni.showToast({
-					// 	title: "登录成功"
-					// })
+					uni.showToast({
+						title: "登录成功"
+					})
 					uni.switchTab({
 						url: "/pages/task/task",
 						success() {
@@ -180,7 +180,7 @@
 	.login-form {
 		width: 100%;
 		height: 800rpx;
-		margin-top: 30%;
+		margin-top: 50%;
 		text-align: center;
 		border-radius: 20rpx;
 		.login-select {

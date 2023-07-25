@@ -25,6 +25,30 @@
             
         }
         
+        ,{
+            "path" : "pages/home/home",
+            "style" :                                                                                    
+			 {
+				 "navigationStyle":"custom"
+			 }
+            
+        }
+        ,{
+            "path" : "pages/mall/mall",
+            "style" :                                                                                    
+			 {
+				 "navigationStyle":"custom"
+			 }
+            
+        }
+        ,{
+            "path" : "pages/mine/mine",
+            "style" :                                                                                    
+			 {
+				 "navigationStyle":"custom"
+			 }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -39,7 +63,7 @@
 		"color": "#C7CBE4",
 		"list": [
 			{
-				"pagePath": "pages/task/task",
+				"pagePath": "pages/home/home",
 				"iconPath": "static/images/tabbar/nav-home.png",
 				"selectedIconPath": "static/images/tabbar/nav-home-active.png",
 				"text": "首页"
@@ -49,12 +73,12 @@
 				"selectedIconPath": "static/images/tabbar/nav-task-active.png",
 				"text": "任务"
 			},{
-				"pagePath": "pages/task/task",
+				"pagePath": "pages/mall/mall",
 				"iconPath": "static/images/tabbar/nav-shop.png",
 				"selectedIconPath": "static/images/tabbar/nav-shop-active.png",
 				"text": "商城"
 			},{
-				"pagePath": "pages/task/task",
+				"pagePath": "pages/mine/mine",
 				"iconPath": "static/images/tabbar/nav-my.png",
 				"selectedIconPath": "static/images/tabbar/nav-my-active.png",
 				"text": "我的"

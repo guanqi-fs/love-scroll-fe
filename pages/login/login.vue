@@ -97,12 +97,19 @@
 		},
 		methods: {
 			login() {
+				console.log("点击登录")
 				if (this.username == "admin" && this.password == "123456") {
-					uni.showToast({
-						title: "登录成功"
-					})
-					uni.navigateBack({
-						url: "/pages/task/task"
+					// uni.showToast({
+					// 	title: "登录成功"
+					// })
+					uni.switchTab({
+						url: "/pages/task/task",
+						success() {
+							console.log("跳转成功")
+						},
+						fail() {
+							console.log("跳转失败")
+						}
 					})
 				} else {
 					console.log("登录失败")

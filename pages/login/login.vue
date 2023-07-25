@@ -12,8 +12,8 @@
 				<view class="login-select">
 					<view class="login-select-base-top"></view>
 					<view class="login-select-base-button"></view>
-					<view class="login-phone-active" id="login-phone" @tap="changeLoginForm(EnumLoginOption.LoginPhone)">手机号登录</view>
-					<view class="login-username" id="login-username" @tap="changeLoginForm(EnumLoginOption.LoginUsername)">账号登录</view>
+					<view v-bind:class="loginPhoneClass" @tap="changeLoginForm(EnumLoginOption.LoginPhone)">手机号登录</view>
+					<view v-bind:class="loginUsernameClass" @tap="changeLoginForm(EnumLoginOption.LoginUsername)">账号登录</view>
 				</view>
 				<view class="login-main">
 					<view class="input-item">
@@ -85,6 +85,8 @@
 					LoginPhone: "phone",
 					LoginUsername: "username"
 				},
+				loginPhoneClass: "login-phone-active",
+				loginUsernameClass: "login-username",
 				loginOption: "phone",
 				codeText: '获取验证码',
 				codeButtonDisabled: false,
@@ -128,15 +130,13 @@
 				this.verificationCode = event.detail.value
 			},
 			changeLoginForm(option) {
-				let loginPhone = document.getElementById("login-phone")
-				let loginUsername = document.getElementById("login-username")
 				this.loginOption = option
 				if (option == this.EnumLoginOption.LoginPhone) {
-					loginPhone.className = "login-phone-active"
-					loginUsername.className = "login-username"
+					this.loginPhoneClass = "login-phone-active"
+					this.loginUsernameClass = "login-username"
 				} else {
-					loginPhone.className = "login-phone"
-					loginUsername.className = "login-username-active"
+					this.loginPhoneClass = "login-phone"
+					this.loginUsernameClass = "login-username-active"
 				}
 			},
 			getCode() {

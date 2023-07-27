@@ -7,7 +7,7 @@
 			<view class="bg-blur"></view>
 			<view class="bg-white"></view>
 		</view>
-		<view class="body">
+		<view class="body" :style="{ '--nav-height': navHeight + 'px' }">
 			<view class="task-top">
 				<view class="left-allow">
 					<image src="../../static/images/左箭头.png"></image>
@@ -34,6 +34,12 @@
 						<view v-bind:class="anotherTaskClass" @tap="changeTaskBelong(EnumTaskBelong.anotherTask)">她的任务</view>
 					</view>
 				</view>
+				<view class="task-panel-main">
+					<view class="task-progress" :style="{ '--task-progress': taskProgress + '%' }">
+						<view class="task-progress-bar"></view>
+						<view class="task-progress-text"> {{taskProgress}} %</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -44,6 +50,8 @@
 	export default {
 		data() {
 			return {
+				navHeight: getApp().globalData.navHeight,
+				taskProgress: "50",
 				EnumTaskBelong: {
 					ownerTask: "owner",
 					anotherTask: "another",
@@ -60,9 +68,9 @@
 					{ value: 3, text: "年" },
 			    ],
 				taskPanelData: [
-					{ count: 7, tip: "全部", class: "task-data-item-active"},
-					{ count: 5, tip: "进行中", class: "task-data-item"},
-					{ count: 2, tip: "已结束", class: "task-data-item"},
+					{ count: 7, tip: "全部"},
+					{ count: 5, tip: "进行中"},
+					{ count: 2, tip: "已结束"},
 				],
 				taskList: [
 					{
@@ -85,15 +93,26 @@
 			changeSelectedTimeRange(value) {
 				this.selectValue = value
 			},
-			changeTaskBelong(value) {
-				
+			changeTaskBelong(option) {
+				this.selectedTaskBelong = option
+				if (option == this.EnumTaskBelong.ownerTask) {
+					this.onwerTaskClass = "owner-task-panel-active"
+					this.anotherTaskClass = "another-task-panel"
+				} else {
+					this.onwerTaskClass = "onwer-task-panel"
+					this.anotherTaskClass = "another-task-panel-active"
+				}
 			}
-		}
+		},
 	}
 </script>
 
 <style lang="scss">
 	@import "../../common/common.scss";
+	.body {
+		padding-top: var(--nav-height); /* 使用CSS变量来设置填充 */
+	}
+	
 	.task-top {
 		width: 100%;
 		height: 64rpx;
@@ -101,7 +120,6 @@
 		align-items: center;
 		color: #433C82;
 		font-weight: bold;
-		margin-top: 40rpx;
 		.left-allow {
 			width: 30rpx;
 			height: 30rpx;
@@ -154,7 +172,10 @@
 		position: relative;
 		font-size: 38rpx;
 		font-weight: bold;
+		margin-top: 40rpx;
 		color: #383838;
+		text-align: center;
+		border-radius: 20rpx;
 		.task-belong-base-top {
 			height: 50rpx;
 			width: 100%;
@@ -165,7 +186,7 @@
 			z-index: -1;
 			border-radius: 20rpx;
 		}
-		.task-belong-base-top {
+		.task-belong-base-button {
 			height: 50rpx;
 			width: 100%;
 			position: absolute;
@@ -175,7 +196,7 @@
 			z-index: -1;
 			border-radius: 20rpx;
 		}
-		.onwer-task-panel-active {
+		.owner-task-panel-active {
 			width: 50%;
 			position: absolute;
 			left: 0;
@@ -185,6 +206,8 @@
 			height: 120rpx;
 			line-height: 120rpx;
 			color: #383838;
+			transition: all 0.1s ease-out;
+			transform: translateX(0);
 		}
 		.onwer-task-panel {
 			width: 50%;
@@ -208,7 +231,7 @@
 			line-height: 100rpx;
 			color: #6A6A6A;
 		}
-		..another-task-panel-active {
+		.another-task-panel-active {
 			width: 50%;
 			position: absolute;
 			right: 0;
@@ -218,7 +241,37 @@
 			height: 120rpx;
 			line-height: 120rpx;
 			color: #383838;
+			transition: all 0.1s ease-out;
+			transform: translateX(0);
+		}
+	}
+	
+	.task-panel-main {
+		width: 100%;
+		height: 300rpx;
+		background-color: #fff;
+		border-radius: 0 0 20rpx 20rpx;
+		padding-top: 20rpx;
+		.task-progress {
+			width: 100%;
+			height: 40rpx;
+			display: flex;
+			align-items: center;
+			padding: 0 36rpx;
+			box-sizing: border-box;
+			.task-progress-bar {
+				flex: 1;
+				height: 20rpx;
+				border-radius: 20rpx;
+				background: linear-gradient(90deg, #80F8FF, #6FA0FD, #A97AFA, var(--task-progress), transparent 0);
+				border: 3px solid #eee;
+			}
+			.task-progress-text {
+				flex: none;
+				margin-left: 10rpx;
+			}
 		}
 
+	}
 	
 </style>

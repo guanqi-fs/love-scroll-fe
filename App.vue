@@ -5,6 +5,7 @@
 		},
 		onLaunch: function() {
 			const systemInfo = uni.getSystemInfoSync();
+			console.log(systemInfo)
 			this.globalData.statusBarHeight = systemInfo.statusBarHeight; //状态栏的高度
 
 			if (systemInfo.platform == 'mp-weixin') { //微信小程序

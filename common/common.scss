@@ -3,10 +3,9 @@
 	height: 100%;
 	padding: $uni-spacing-col-base $uni-spacing-row-base;
 	box-sizing: border-box;
-	position: fixed;
+	position: relative;
 	left: 0;
 	right: 0;
-	font-family:"Microsoft YaHei";
 }
 
 .bg {

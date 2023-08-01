@@ -34,8 +34,8 @@
 				</view>
 				<view id="task-time-y"></view>
 			</view>
-			<!-- <view class="task-list-bg"></view> -->
-			<scroll-view scroll-y="true" @scroll="handleScroll">
+			<view class="task-list-bg"></view>
+			<scroll-view scroll-y="true" @scroll="handleScroll" class="task-scroll-view">
 				<!-- 任务面板 -->
 				<view class="task-panel" :style="{opacity: taskPanelOpacity}">
 					<view class="task-belong">
@@ -102,25 +102,39 @@
 								<view class="task-item-left-top">
 									<view class="task-item-title">{{item.title}}</view>
 									<view class="task-item-finish-label">
-										<image src="../../static/images/finish.png"></image>
+										<image src="../../static/images/finish.png" v-if="!item.status"></image>
+										<image src="../../static/images/finish-active.png" v-else></image>
 									</view>
 								</view>
 								<view class="task-item-discribe">{{item.discribe}}</view>
 								<view class="task-item-end-time">{{item.endTime}}</view>
 							</view>
 							<view class="task-item-right">
-								<view class="task-item-rewards">
-									<span class="task-item-rewards-value">{{item.rewards}}</span>
-									<span class="task-item-rewards-tip">积分</span>
+								<view class="task-finish" v-if="!item.status">
+									<view class="task-item-rewards">
+										<span class="task-item-rewards-value">{{item.rewards}}</span>
+										<span class="task-item-rewards-tip">积分</span>
+									</view>
+									<view class="task-item-finish-button">
+										<view class="task-item-finish-button-bg">完成</view>
+									</view>
 								</view>
-								<view class="task-item-finish-button">
-									<view class="task-item-finish-button-bg">完成</view>
+								<view class="task-finished" v-else>
+									<view class="task-finished-title">已完成</view>
 								</view>
+								
 							</view>
 						</view>
 					</view>
 				</view>
 			</scroll-view>
+			
+			<!-- 创建任务按钮 -->
+			<view class="create-task-button" @tap="toCreateTaskPage()">
+				<view class="create-task-icon">
+					<image src="../../static/images/加号.png"></image>
+				</view>
+			</view>
 		</view>
 	</view>
 
@@ -180,66 +194,77 @@
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: true,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: true,
 					},
 					{
 						endTime: "剩余：6天12小时",
 						title: "出门买菜",
 						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
 						rewards: 108,
+						status: false,
 					}
 				]
 			}
@@ -257,6 +282,11 @@
 					this.onwerTaskClass = "onwer-task-panel"
 					this.anotherTaskClass = "another-task-panel-active"
 				}
+			},
+			toCreateTaskPage() {
+				uni.navigateTo({
+					url: "/pages/add_task/add_task"
+				})
 			},
 			getTaskListY() {
 				const query = uni.createSelectorQuery();
@@ -288,7 +318,7 @@
 			},
 			getTaskListHeight() {
 				let systemInfo = uni.getSystemInfoSync();
-				this.taskListHeight = this.pxToRpx(systemInfo.windowHeight - this.navHeight) - this.taskListY
+				this.taskListHeight = this.pxToRpx(systemInfo.windowHeight - 44) - this.taskListY
 				console.log("任务列表高度：", this.taskListHeight)
 			}
 		},
@@ -542,14 +572,17 @@
 		z-index: -1;
 		border-radius: 20rpx 20rpx 0 0;
 	}
+	
+	.task-scroll-view {
+		margin-top: 40rpx;
+	}
 
 	.task-list {
 		width: 100%;
 		height: var(--task-list-height);
 		margin-top: 40rpx;
-		
 		.task-list-main {
-			position: relative;
+			// position: relative;
 			.task-list-top-bg {
 				width: 100%;
 				height: 160rpx;
@@ -559,16 +592,19 @@
 				position: absolute;
 				top: 0;
 				left: 0;
-				z-index: 10000;
+				z-index: 9998;
 			}
 			.task-list-top {
 				position: sticky;
 				top: 0;
 				left: 0;
+				z-index: 9998;
 				.task-list-title {
 					font-weight: bold;
 					font-size: 40rpx;
 					height: 40rpx;
+					position: relative;
+					z-index: 9999;
 				}
 				
 				.task-tag {
@@ -578,6 +614,8 @@
 					display: flex;
 					overflow-x: scroll;
 					mask: linear-gradient(90deg, #000 70%, transparent);
+					position: relative;
+					z-index: 9999;
 					.task-tag-item {
 						margin-right: 20rpx;
 						width: 150rpx;
@@ -635,7 +673,7 @@
 							height: 40rpx;
 							margin-left: 20rpx;
 							position: relative;
-							z-index: 1;
+							z-index: 0;
 						}
 					}
 
@@ -657,7 +695,13 @@
 				.task-item-right {
 					width: 180rpx;
 					flex: none;
-
+					.task-finished-title {
+						text-align: center;
+						line-height: 180rpx;
+						font-size: 40rpx;
+						font-weight: bold;
+						color: #4BC0C9;
+					}
 					.task-item-rewards {
 						width: 100%;
 						text-align: center;
@@ -689,7 +733,7 @@
 						font-size: 34rpx;
 						font-weight: bold;
 						position: relative;
-						z-index: 1;
+						// z-index: -1;
 						&::before {
 							content: "";
 							position: absolute;
@@ -700,6 +744,7 @@
 							background: linear-gradient(90deg, #80F8FF, #6FA0FD, #A97AFA);
 							border-radius: 100rpx;
 							box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
+							// z-index: -1;
 						}
 					}
 
@@ -711,10 +756,29 @@
 						top: 0;
 						left: 0;
 						border-radius: 100rpx;
+						// z-index: -1;
 					}
 				}
 
 			}
+		}
+	}
+	
+	.create-task-button {
+		width: 140rpx;
+		height: 140rpx;
+		position: absolute;
+		bottom: 40rpx;
+		right: 40rpx;
+		border-radius: 50%;
+		background: linear-gradient(45deg, #80F8FF, #6FA0FD, #A97AFA);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
+		.create-task-icon {
+			width: 120rpx;
+			height: 120rpx;
 		}
 	}
 </style>

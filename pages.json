@@ -22,9 +22,14 @@
 			 {
 				 "navigationStyle":"custom"
 			 }
-            
-        }
-        
+        },
+		{
+		    "path" : "pages/add_task/add_task",
+		    "style" :                                                                                    
+			 {
+				 "navigationStyle":"custom"
+			 }
+		}
         ,{
             "path" : "pages/home/home",
             "style" :                                                                                    

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="page">
 		<view class="bg">
 			<view class="bg-img">
 				<image src="../../static/images/bg.png"></image>
@@ -22,19 +22,56 @@
 			<view class="main">
 				<view class="task-title">
 					<view class="task-title-text">任务名称</view>
+					<view class="task-title-input-div">
+						<view class="task-title-input-icon">
+							<image src="../../static/images/tabbar/nav-task.png"></image>
+						</view>
+						<view class="task-title-input">
+							<input type="text" placeholder="请输入任务名称" @input="taskTitleInput"/>
+						</view>
+					</view>
 				</view>
 				<view class="task-tag">
-					<view class="task-tag-text">标签</view>
+					<view class="task-option-icon">
+						<image src="../../static/images/tag.png"></image>
+					</view>
+					<view class="task-option-text">标签</view>
+					<uni-data-select
+						class="uni-data-select"
+						v-model="tagValue"
+					    :localdata="tagRange"
+					    @change="tagChange"
+					></uni-data-select>
 				</view>
 				<view class="task-recycle">
-					<view class="task-recycle-text">重复</view>
+					<view class="task-option-icon">
+						<image src="../../static/images/recycle.png"></image>
+					</view>
+					<view class="task-option-text">重复</view>
+					<uni-data-select
+						class="uni-data-select"
+						v-model="recycleValue"
+					    :localdata="recycleRange"
+					    @change="recycleChange"
+					></uni-data-select>
 				</view>
 				<view class="task-deadline">
-					<view class="task-deadline-text">截止</view>
+					<view class="task-option-icon">
+						<image src="../../static/images/time.png"></image>
+					</view>
+					<view class="task-option-text">截止</view>
+					<uni-datetime-picker class="uni-datetime-picker" v-model="single" :border="false" />
 				</view>
 				<view class="task-rewards">
-					<view class="task-rewards-text">奖励</view>
+					<view class="task-option-icon">
+						<image src="../../static/images/money.png"></image>
+					</view>
+					<view class="task-option-text">奖励</view>
 				</view>
+				<view class="task-discribe">
+					<view class="task-option-text">任务描述</view>
+				</view>
+				<view class="submit-buttom">创建</view>
 			</view>
 		</view>
 	</view>
@@ -45,11 +82,34 @@
 		data() {
 			return {
 				navHeight: getApp().globalData.navHeight,
+				tagValue: 0,
+				tagRange: [
+					{ value: 0, text: "默认" },
+					{ value: 1, text: "健身" },
+					{ value: 2, text: "学习" },
+				],
+				recycleValue: 0,
+				recycleRange: [
+					{ value: 0, text: "仅一次" },
+					{ value: 1, text: "每天" },
+					{ value: 2, text: "每周" },
+					{ value: 3, text: "每月" },
+					{ value: 4, text: "每年" },
+				],
 			}
 		},
 		methods: {
 			backToPage() {
 				uni.navigateBack()
+			},
+			taskTitleInput() {
+				
+			},
+			tagChange() {
+				
+			},
+			recycleChange() {
+				
 			}
 		}
 	}
@@ -57,12 +117,35 @@
 
 <style lang="scss">
 	@import "../../common/common.scss";
-	*{margin:0; padding: 0;}
-	html, body{ height: 100%; }
+	// * {
+	// 	height: 100%;
+	// 	width: 100%;
+	// }
+	  .text {
+	    font-size: 12px;
+	    color: #666;
+	    margin-top: 5px;
+	  }
+	
+	  .uni-px-5 {
+	    padding-left: 10px;
+	    padding-right: 10px;
+	  }
+	
+	  .uni-pb-5 {
+	    padding-bottom: 10px;
+	  }
+
+	.page {
+		height: 100%;
+		width: 100%;
+	}
 	.body {
 		padding-top: var(--nav-height);
 		// overflow: hidden;
 		/* 使用CSS变量来设置填充 */
+		height: 100%;
+		width: 100%;
 	}
 	
 	.top {
@@ -99,7 +182,94 @@
 	.main {
 		width: 100%;
 		height: 100%;
+		margin-top: 40rpx;
 		display: flex;
 		flex-direction: column;
+		font-size: 36rpx;
+		font-weight: bold;
+		.task-tag, .task-recycle, .task-deadline, .task-rewards, .submit-buttom {
+		// .task-tag {
+			flex: 1;
+			border-bottom: #979797 2rpx solid;
+			display: flex;
+			align-items: center;
+		}
+		
+		
+		.task-title, .task-discribe {
+			flex: 2;
+			border-bottom: #979797 2rpx solid;
+		}
+		
+		.task-title {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			.task-title-text {
+				text-align: center;
+			}
+			
+			.task-title-input-div {
+				width: 90%;
+				height: 120rpx;
+				margin-top: 40rpx;
+				margin-left: 5%;
+				margin-right: 5%;
+				background-color: #fff;
+				border-radius: 100rpx;
+				display: flex;
+				align-items: center;
+				padding-left: 40rpx;
+				padding-right: 20rpx;
+				box-sizing: border-box;
+				box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
+				.task-title-input-icon {
+					width: 64rpx;
+					height: 64rpx;
+					flex: none;
+				}
+				.task-title-input {
+					flex: 1;
+					text-align: left;
+					margin-left: 20rpx;
+				}
+			}
+		}
+		
+		.task-option-icon {
+			width: 48rpx;
+			height: 48rpx;
+			flex: none;
+		}
+		
+		.task-option-text {
+			flex: none;
+			margin-left: 20rpx;
+		}
+		
+		.uni-data-select {
+			flex: 1;
+			background-color: #fff;
+			margin-left: 40rpx;
+			height: 100rpx;
+			padding: 0 20rpx;
+			border-radius: 20rpx;
+			line-height: 100rpx;
+		}
+		
+		.uni-datetime-picker {
+			flex: 1;
+			background-color: #fff;
+			margin-left: 40rpx;
+			height: 100rpx;
+			padding: 0 20rpx;
+			border-radius: 20rpx;
+			line-height: 100rpx;
+		}
+	}
+	
+	::v-deep .uni-select{
+		border: none !important;
 	}
 </style>

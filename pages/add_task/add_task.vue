@@ -67,11 +67,18 @@
 						<image src="../../static/images/money.png"></image>
 					</view>
 					<view class="task-option-text">奖励</view>
+					<view class="task-rewards-value">
+						<input type="number"/>
+					</view>
+					<view class="task-rewards-unit">积分</view>
 				</view>
 				<view class="task-discribe">
 					<view class="task-option-text">任务描述</view>
+					<view class="task-discribe-textarea">
+						<textarea placeholder="请输入任务描述"></textarea>
+					</view>
 				</view>
-				<view class="submit-buttom">创建</view>
+				<view class="submit-button">创建</view>
 			</view>
 		</view>
 	</view>
@@ -117,25 +124,7 @@
 
 <style lang="scss">
 	@import "../../common/common.scss";
-	// * {
-	// 	height: 100%;
-	// 	width: 100%;
-	// }
-	  .text {
-	    font-size: 12px;
-	    color: #666;
-	    margin-top: 5px;
-	  }
 	
-	  .uni-px-5 {
-	    padding-left: 10px;
-	    padding-right: 10px;
-	  }
-	
-	  .uni-pb-5 {
-	    padding-bottom: 10px;
-	  }
-
 	.page {
 		height: 100%;
 		width: 100%;
@@ -144,8 +133,8 @@
 		padding-top: var(--nav-height);
 		// overflow: hidden;
 		/* 使用CSS变量来设置填充 */
-		height: 100%;
-		width: 100%;
+		// height: 100%;
+		// width: 100%;
 	}
 	
 	.top {
@@ -181,8 +170,8 @@
 	
 	.main {
 		width: 100%;
-		height: 100%;
-		margin-top: 40rpx;
+		height: 95%;
+		// margin-top: 40rpx;
 		display: flex;
 		flex-direction: column;
 		font-size: 36rpx;
@@ -248,7 +237,39 @@
 			margin-left: 20rpx;
 		}
 		
+		.task-rewards-value {
+			background-color: #fff;
+			margin-left: 40rpx;
+			height: 100rpx;
+			line-height: 100rpx;
+			border-radius: 20rpx;
+			display: flex;
+			align-items: center;
+			padding: 0 20rpx;
+			flex: 1;
+			color: #4BC0C9;
+		}
+		
+		.task-rewards-unit {
+			flex: none;
+			margin-left: 20rpx;
+			font-size: 30rpx;
+			color: #979797;
+		}
+		
 		.uni-data-select {
+			flex: 1;
+			background-color: #fff;
+			margin-left: 40rpx;
+			height: 100rpx;
+			padding: 0 20rpx;
+			border-radius: 20rpx;
+			line-height: 100rpx;
+			display: flex;
+			align-items: center;
+		}
+		
+		.uni-date {
 			flex: 1;
 			background-color: #fff;
 			margin-left: 40rpx;
@@ -258,13 +279,33 @@
 			line-height: 100rpx;
 		}
 		
-		.uni-datetime-picker {
-			flex: 1;
-			background-color: #fff;
-			margin-left: 40rpx;
+		.uni-date-editor, .uni-date-editor--x, .uni-date-single {
 			height: 100rpx;
-			padding: 0 20rpx;
-			border-radius: 20rpx;
+		}
+		
+		.task-discribe {
+			.task-option-text {
+				margin-left: 0;
+				margin-top: 20rpx;
+			}
+			.task-discribe-textarea {
+				background-color: #fff;
+				margin: 40rpx 0;
+				border-radius: 20rpx;
+				padding: 20rpx;
+				box-sizing: border-box;
+			}
+		}
+		
+		.submit-button {
+			width: 100%;
+			height: 100rpx;
+			background: #000;
+			box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
+			background: linear-gradient(90deg, #80F8FF, #6FA0FD, #A97AFA);
+			border-radius: 100rpx;
+			color: #fff;
+			text-align: center;
 			line-height: 100rpx;
 		}
 	}

@@ -74,9 +74,9 @@
 				</view>
 				<view class="task-discribe">
 					<view class="task-option-text">任务描述</view>
-					<view class="task-discribe-textarea">
+<!-- 					<view class="task-discribe-textarea">
 						<textarea placeholder="请输入任务描述"></textarea>
-					</view>
+					</view> -->
 				</view>
 				<view class="submit-button">创建</view>
 			</view>
@@ -240,7 +240,7 @@
 		.task-rewards-value {
 			background-color: #fff;
 			margin-left: 40rpx;
-			height: 100rpx;
+			height: 70%;
 			line-height: 100rpx;
 			border-radius: 20rpx;
 			display: flex;
@@ -261,7 +261,7 @@
 			flex: 1;
 			background-color: #fff;
 			margin-left: 40rpx;
-			height: 100rpx;
+			height: 70%;
 			padding: 0 20rpx;
 			border-radius: 20rpx;
 			line-height: 100rpx;
@@ -273,33 +273,32 @@
 			flex: 1;
 			background-color: #fff;
 			margin-left: 40rpx;
-			height: 100rpx;
+			height: 70%;
 			padding: 0 20rpx;
 			border-radius: 20rpx;
 			line-height: 100rpx;
+			display: flex;
+			align-items: center;
 		}
 		
-		.uni-date-editor, .uni-date-editor--x, .uni-date-single {
-			height: 100rpx;
-		}
-		
-		.task-discribe {
-			.task-option-text {
-				margin-left: 0;
-				margin-top: 20rpx;
-			}
-			.task-discribe-textarea {
-				background-color: #fff;
-				margin: 40rpx 0;
-				border-radius: 20rpx;
-				padding: 20rpx;
-				box-sizing: border-box;
-			}
-		}
+		// .task-discribe {
+		// 	.task-option-text {
+		// 		margin-left: 0;
+		// 		margin-top: 20rpx;
+		// 	}
+		// 	.task-discribe-textarea {
+		// 		background-color: #fff;
+		// 		margin: 40rpx 0;
+		// 		border-radius: 20rpx;
+		// 		padding: 20rpx;
+		// 		box-sizing: border-box;
+		// 	}
+		// }
 		
 		.submit-button {
+			flex: 1;
 			width: 100%;
-			height: 100rpx;
+			height: 70%;
 			background: #000;
 			box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
 			background: linear-gradient(90deg, #80F8FF, #6FA0FD, #A97AFA);
@@ -312,5 +311,11 @@
 	
 	::v-deep .uni-select{
 		border: none !important;
+	}
+	
+	::v-deep  .uni-date-editor {
+		// height: 50rpx;
+		// box-sizing: border-box;
+		height: 70rpx;
 	}
 </style>

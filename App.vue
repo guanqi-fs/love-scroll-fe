@@ -29,24 +29,11 @@
 
 <style>
 	/*每个页面公共css */
-	uni-page-body {
+	uni-page-body, body, .body, .page, page {
 		height: 100%;
 		width: 100%;
-	}
-	body {
-		height: 100%;
-		width: 100%;
-	}
-	.body {
-		height: 100%;
-		width: 100%;
-	}
-	.page {
-		height: 100%;
-		width: 100%;
-	}
-	page {
-		height: 100%;
-		width: 100%;
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
 	}
 </style>

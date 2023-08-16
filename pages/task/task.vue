@@ -97,7 +97,7 @@
 							</view>
 						</view>
 						
-						<view class="task-item" v-for="(item, index) in taskList" :key="index">
+						<view class="task-item" v-for="(item, index) in tasks" :key="index">
 							<view class="task-item-left">
 								<view class="task-item-left-top">
 									<view class="task-item-title">{{item.title}}</view>
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	export default {
 		data() {
 			return {
@@ -189,85 +190,11 @@
 						tip: "已结束"
 					},
 				],
-				taskList: [{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: true,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: true,
-					},
-					{
-						endTime: "剩余：6天12小时",
-						title: "出门买菜",
-						discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-						rewards: 108,
-						status: false,
-					}
-				]
+				// taskList: this.getTasks
 			}
+		},
+		computed: {
+			...mapState(['tasks'])
 		},
 		methods: {
 			changeSelectedTimeRange(value) {
@@ -392,8 +319,8 @@
 			height: 90rpx;
 			margin-top: 20rpx;
 			line-height: 90rpx;
-			transition: all 0.1s ease-out;
-			transform: translateX(0);
+			// transition: all 0.1s ease-out;
+			// transform: translateX(0);
 		}
 	}
 

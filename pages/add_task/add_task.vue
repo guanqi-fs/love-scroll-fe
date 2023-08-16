@@ -60,7 +60,7 @@
 						<image src="../../static/images/time.png"></image>
 					</view>
 					<view class="task-option-text">截止</view>
-					<uni-datetime-picker class="uni-datetime-picker" v-model="single" :border="false" />
+					<uni-datetime-picker class="uni-datetime-picker" v-model="endTime" :border="false" />
 				</view>
 				<view class="task-rewards">
 					<view class="task-option-icon">
@@ -78,7 +78,7 @@
 						<textarea placeholder="请输入任务描述"></textarea>
 					</view>
 				</view>
-				<view class="submit-button">创建</view>
+				<view class="submit-button" @tap="submitAddTaskForm()">创建</view>
 			</view>
 		</view>
 	</view>
@@ -103,6 +103,7 @@
 					{ value: 3, text: "每月" },
 					{ value: 4, text: "每年" },
 				],
+				endTime: "",
 			}
 		},
 		methods: {
@@ -117,6 +118,18 @@
 			},
 			recycleChange() {
 				
+			},
+			submitAddTaskForm() {
+				const newTask = {
+					endTime: "剩余：6天12小时",
+					title: "出门买菜",
+					discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
+					rewards: 108,
+					status: true,
+				};
+				console.log(this.$store.state.tasks)
+				this.$store.commit('addTask', newTask);
+				uni.navigateBack();
 			}
 		}
 	}
@@ -124,6 +137,10 @@
 
 <style lang="scss">
 	@import "../../common/common.scss";
+	
+	uni-page-body, body, .body, .page, page {
+		overflow: hidden;
+	}
 	
 	.page {
 		height: 100%;
@@ -185,9 +202,13 @@
 		}
 		
 		
-		.task-title, .task-discribe {
+		.task-title {
 			flex: 2;
 			border-bottom: #979797 2rpx solid;
+		}
+		
+		.task-discribe {
+			flex: 2;
 		}
 		
 		.task-title {

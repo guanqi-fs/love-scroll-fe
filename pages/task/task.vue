@@ -34,7 +34,6 @@
 				</view>
 				<view id="task-time-y"></view>
 			</view>
-			<view class="task-list-bg"></view>
 			<scroll-view scroll-y="true" @scroll="handleScroll" class="task-scroll-view">
 				<!-- 任务面板 -->
 				<view class="task-panel" :style="{opacity: taskPanelOpacity}">
@@ -82,6 +81,7 @@
 				<view id="task-list-y"></view>
 				<!-- 任务列表 -->
 				<view class="task-list">
+					<view class="task-list-bg"></view>
 					<view class="task-list-main">
 						<view class="task-list-top">
 							<view class="task-list-top-bg" :style="{opacity: 1 - taskPanelOpacity}"></view>
@@ -487,18 +487,7 @@
 		}
 	}
 	
-	.task-list-bg {
-		width: 100%;
-		height: 100%;
-		background-color: #fff;
-		opacity: 0.6;
-		position: absolute;
-		// top: 0;
-		top: var(--task-list-y);
-		left: 0;
-		z-index: -1;
-		border-radius: 20rpx 20rpx 0 0;
-	}
+
 	
 	.task-scroll-view {
 		margin-top: 40rpx;
@@ -508,8 +497,26 @@
 		width: 100%;
 		height: var(--task-list-height);
 		margin-top: 40rpx;
+		position: relative;
+		.task-list-bg {
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			opacity: 0.6;
+			// position: sticky;
+			position: absolute;
+			top: 0;
+			left: 0;
+			// margin-left: -40rpx;
+			// margin-right: 40rpx;
+			// margin-left: -40rpx;
+			z-index: -1;
+			border-radius: 20rpx 20rpx 0 0;
+		}
 		.task-list-main {
-			// position: relative;
+			// position: absolute;
+			// top: 0;
+			// left: 0;
 			.task-list-top-bg {
 				width: 100%;
 				height: 160rpx;
@@ -540,7 +547,8 @@
 					margin-top: 20rpx;
 					display: flex;
 					overflow-x: scroll;
-					mask: linear-gradient(90deg, #000 70%, transparent);
+					overflow-y: hidden; /* 禁止垂直滚动 */
+					// mask: linear-gradient(90deg, #000 70%, transparent);
 					position: relative;
 					z-index: 9999;
 					.task-tag-item {
@@ -582,10 +590,9 @@
 				margin-top: 20rpx;
 				box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
 				display: flex;
-
+				
 				.task-item-left {
 					flex: 1;
-
 					.task-item-left-top {
 						display: flex;
 						align-items: center;

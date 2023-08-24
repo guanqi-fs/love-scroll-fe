@@ -176,10 +176,10 @@
 		height: 100%;
 		padding: 40rpx;
 	}
-	
+
 	.login-form {
 		width: 100%;
-		height: 800rpx;
+		height: 100%;
 		margin-top: 50%;
 		text-align: center;
 		border-radius: 20rpx;

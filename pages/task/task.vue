@@ -13,6 +13,7 @@
 				'--task-time-y': taskTimeY + 'rpx' , 
 				'--task-list-y': taskListY + 'rpx',
 				'--task-list-height': taskListHeight  + 'rpx',
+				'--task-list-bg-height': taskListBgHeight  + 'rpx',
 			}"
 			
 		>
@@ -32,8 +33,8 @@
 						v-bind:class="item.value == selectValue ? `task-time-options-item time-options-active` : `task-time-options-item` "
 						@tap="changeSelectedTimeRange(item.value)">{{item.text}}</view>
 				</view>
-				<view id="task-time-y"></view>
 			</view>
+			<view id="task-time-y"></view>
 			<scroll-view scroll-y="true" @scroll="handleScroll" class="task-scroll-view">
 				<!-- 任务面板 -->
 				<view class="task-panel" :style="{opacity: taskPanelOpacity}">
@@ -82,9 +83,9 @@
 				<!-- 任务列表 -->
 				<view class="task-list">
 					<view class="task-list-bg"></view>
+					<view class="task-list-top-bg" :style="{opacity: 1 - taskPanelOpacity}"></view>
 					<view class="task-list-main">
 						<view class="task-list-top">
-							<view class="task-list-top-bg" :style="{opacity: 1 - taskPanelOpacity}"></view>
 							<view class="task-list-title">任务列表</view>
 							<view class="task-tag">
 								<view class="task-tag-item-active">全部</view>
@@ -106,13 +107,13 @@
 										<image src="../../static/images/finish-active.png" v-else></image>
 									</view>
 								</view>
-								<view class="task-item-discribe">{{item.discribe}}</view>
-								<view class="task-item-end-time">{{item.endTime}}</view>
+								<view class="task-item-discribe">{{item.describe}}</view>
+								<view class="task-item-end-time">{{item.deadline}}</view>
 							</view>
 							<view class="task-item-right">
 								<view class="task-finish" v-if="!item.status">
 									<view class="task-item-rewards">
-										<span class="task-item-rewards-value">{{item.rewards}}</span>
+										<span class="task-item-rewards-value">{{item.reward}}</span>
 										<span class="task-item-rewards-tip">积分</span>
 									</view>
 									<view class="task-item-finish-button">
@@ -141,7 +142,7 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex';
+	import { mapState, mapGetters } from 'vuex';
 	export default {
 		data() {
 			return {
@@ -149,6 +150,7 @@
 				taskListY: 0,
 				taskTimeY: 0,
 				taskListHeight: 0,
+				taskListBgHeight: 0,
 				navHeight: getApp().globalData.navHeight,
 				taskProgress: "50",
 				EnumTaskBelong: {
@@ -157,7 +159,7 @@
 				},
 				onwerTaskClass: "owner-task-panel-active",
 				anotherTaskClass: "another-task-panel",
-				timeLimit: "2023年7月25日",
+				timeLimit: "2023-7-25 ~ 2023-7-26",
 				selectedTaskBelong: "owner",
 				selectValue: 0,
 				selectTimeRange: [{
@@ -226,10 +228,10 @@
 			},
 			getTaskTimeY() {
 				const query = uni.createSelectorQuery();
-				query.select('#task-time-div').boundingClientRect();
+				query.select('#task-time-y').boundingClientRect();
 				query.exec((res) => {
 					console.log(res[0]);
-					this.taskTimeY = this.pxToRpx(res[0].bottom - this.navHeight + 10)
+					this.taskTimeY = this.pxToRpx(res[0].bottom + 15)
 					console.log("getTaskTimeY", this.taskTimeY); // 输出元素的 Y 坐标（相对于页面顶部的距离）
 				});
 			},
@@ -245,15 +247,21 @@
 			},
 			getTaskListHeight() {
 				let systemInfo = uni.getSystemInfoSync();
-				this.taskListHeight = this.pxToRpx(systemInfo.windowHeight - 44) - this.taskListY
+				this.taskListHeight = this.pxToRpx(systemInfo.windowHeight - 20) - this.taskListY
 				console.log("任务列表高度：", this.taskListHeight)
+			},
+			getTaskListBgHeight() {
+				this.taskListBgHeight = this.taskListHeight + 220 * this.$store.getters.getTasks.length
 			}
 		},
 		onReady() {
 			this.getTaskListY()
 			this.getTaskTimeY()
-			
+			this.getTaskListBgHeight()
 		},
+		onShow() {
+			this.getTaskListBgHeight()
+		}
 	}
 </script>
 
@@ -262,8 +270,13 @@
 
 	.body {
 		padding-top: var(--nav-height);
-		overflow: hidden;
+		// overflow: hidden;
 		/* 使用CSS变量来设置填充 */
+	}
+	
+	.task-top-fixed {
+		padding: 0 $uni-spacing-row-base;
+		box-sizing: border-box;
 	}
 
 	.task-top {
@@ -273,7 +286,6 @@
 		align-items: center;
 		color: #433C82;
 		font-weight: bold;
-
 		.left-allow {
 			width: 30rpx;
 			height: 30rpx;
@@ -305,7 +317,7 @@
 		font-weight: bold;
 		box-sizing: border-box;
 		color: #383838;
-
+		box-shadow: 0 4rpx 20rpx 10rpx rgba(0, 0, 0, 0.05);
 		.task-time-options-item {
 			flex: 1;
 			text-align: center;
@@ -323,19 +335,23 @@
 			// transform: translateX(0);
 		}
 	}
+	
+	.task-panel {
+		padding: 0 $uni-spacing-row-base;
+		box-sizing: border-box;
+		z-index: 9999;
+	}
 
 	.task-belong {
+		z-index: 9999;
 		width: 100%;
 		height: 120rpx;
 		position: relative;
 		font-size: 38rpx;
 		font-weight: bold;
-		margin-top: 40rpx;
-		// margin-top: var(--task-time-y);
 		color: #383838;
 		text-align: center;
 		border-radius: 20rpx;
-
 		.task-belong-base-top {
 			height: 50rpx;
 			width: 100%;
@@ -417,7 +433,8 @@
 		background-color: #fff;
 		border-radius: 0 0 20rpx 20rpx;
 		padding-top: 20rpx;
-
+		z-index: 9999;
+		box-shadow: 0 4rpx 20rpx 10rpx rgba(0, 0, 0, 0.05);
 		.task-progress {
 			width: 100%;
 			height: 40rpx;
@@ -495,42 +512,47 @@
 
 	.task-list {
 		width: 100%;
+		// height: 100%;
+		// max-height: calc(var(--task-list-height) + 500rpx);
+		// min-height: var(--task-list-height);
 		height: var(--task-list-height);
 		margin-top: 40rpx;
 		position: relative;
+		padding: 0 $uni-spacing-row-base;
+		box-sizing: border-box;
+		padding-top: $uni-spacing-col-base;
 		.task-list-bg {
 			width: 100%;
-			height: 100%;
+			height: var(--task-list-bg-height);
+			min-height: var(--task-list-height);
 			background-color: #fff;
 			opacity: 0.6;
 			// position: sticky;
 			position: absolute;
 			top: 0;
 			left: 0;
-			// margin-left: -40rpx;
-			// margin-right: 40rpx;
-			// margin-left: -40rpx;
 			z-index: -1;
 			border-radius: 20rpx 20rpx 0 0;
+		}
+		.task-list-top-bg {
+			width: 100%;
+			height: 220rpx;
+			background-color: #fff;
+			border-radius: 20rpx;
+			box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
+			position: fixed;
+			top: var(--task-time-y);
+			left: 0;
+			z-index: 9998;
 		}
 		.task-list-main {
 			// position: absolute;
 			// top: 0;
 			// left: 0;
-			.task-list-top-bg {
-				width: 100%;
-				height: 160rpx;
-				background-color: #fff;
-				border-radius: 20rpx;
-				box-shadow: 0 8rpx 8rpx 0px rgba(0, 0, 0, 0.25);
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 9998;
-			}
+			
 			.task-list-top {
 				position: sticky;
-				top: 0;
+				top: 40rpx;
 				left: 0;
 				z-index: 9998;
 				.task-list-title {

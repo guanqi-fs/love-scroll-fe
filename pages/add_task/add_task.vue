@@ -60,7 +60,7 @@
 						<image src="../../static/images/time.png"></image>
 					</view>
 					<view class="task-option-text">截止</view>
-					<uni-datetime-picker class="uni-datetime-picker" v-model="endTime" :border="false" />
+					<uni-datetime-picker class="uni-datetime-picker" v-model="taskInfo.deadline" :border="false" />
 				</view>
 				<view class="task-rewards">
 					<view class="task-option-icon">
@@ -68,14 +68,14 @@
 					</view>
 					<view class="task-option-text">奖励</view>
 					<view class="task-rewards-value">
-						<input type="number"/>
+						<input type="number" @input="rewardInput"/>
 					</view>
 					<view class="task-rewards-unit">积分</view>
 				</view>
 				<view class="task-discribe">
 					<view class="task-option-text">任务描述</view>
 					<view class="task-discribe-textarea">
-						<textarea placeholder="请输入任务描述"></textarea>
+						<textarea placeholder="请输入任务描述" @input="describeInput"></textarea>
 					</view>
 				</view>
 				<view class="submit-button" @tap="submitAddTaskForm()">创建</view>
@@ -88,6 +88,15 @@
 	export default {
 		data() {
 			return {
+				taskInfo: {
+					title: "",
+					tag: "",
+					recycleOption: "",
+					deadline: "",
+					reward: 0,
+					describe: "",
+					status: false
+				},
 				navHeight: getApp().globalData.navHeight,
 				tagValue: 0,
 				tagRange: [
@@ -103,32 +112,31 @@
 					{ value: 3, text: "每月" },
 					{ value: 4, text: "每年" },
 				],
-				endTime: "",
 			}
 		},
 		methods: {
 			backToPage() {
 				uni.navigateBack()
 			},
-			taskTitleInput() {
-				
+			taskTitleInput(event) {
+				this.taskInfo.title = event.detail.value
 			},
-			tagChange() {
-				
+			tagChange(value) {
+				console.log("更改tag", value)
+				this.taskInfo.tag = value
 			},
-			recycleChange() {
-				
+			recycleChange(value) {
+				this.taskInfo.recycleOption = value
+				console.log(this.endTime)
+			},
+			rewardInput(event) {
+				this.taskInfo.reward = event.detail.value
+			},
+			describeInput(event) {
+				this.taskInfo.describe = event.detail.value
 			},
 			submitAddTaskForm() {
-				const newTask = {
-					endTime: "剩余：6天12小时",
-					title: "出门买菜",
-					discribe: "买青菜，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋，猪肉，牛肉，鸡蛋",
-					rewards: 108,
-					status: true,
-				};
-				console.log(this.$store.state.tasks)
-				this.$store.commit('addTask', newTask);
+				this.$store.commit('addTask', this.taskInfo);
 				uni.navigateBack();
 			}
 		}
@@ -147,8 +155,10 @@
 		width: 100%;
 	}
 	.body {
+		overflow: hidden;	
+		box-sizing: border-box;
+		padding: $uni-spacing-col-base $uni-spacing-row-base;
 		padding-top: var(--nav-height);
-		// overflow: hidden;
 		/* 使用CSS变量来设置填充 */
 		// height: 100%;
 		// width: 100%;

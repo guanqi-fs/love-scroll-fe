@@ -172,9 +172,8 @@
 
 	@import "../../common/common.scss";
 	.body {
-		width: 100%;
-		height: 100%;
 		padding: 40rpx;
+		box-sizing: border-box;
 	}
 
 	.login-form {
